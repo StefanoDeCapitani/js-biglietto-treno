@@ -4,15 +4,15 @@ let messaggioErrore =
 let tipologiaSconto = "Nessuno";
 
 //Richiesta input chilometri della tratta
-let inserimentoUtenteTratta = prompt("Lunghezza della tratta in km:");
-let lunghezzaTratta = parseInt(inserimentoUtenteTratta);
+const inputUtenteTratta = prompt("Lunghezza della tratta in km:");
+const lunghezzaTratta = parseInt(inputUtenteTratta);
 if (isNaN(lunghezzaTratta) || lunghezzaTratta <= 0) {
   messaggio = messaggioErrore;
 } else {
   //Richiesta input età del passeggero
-  let inserimentoUtenteEta = prompt("Eta del passeggero:");
-  let etaPasseggero = parseInt(inserimentoUtenteEta);
-  if (isNaN(etaPasseggero) || etaPasseggero <= 0) {
+  const inputUtenteEta = prompt("Eta del passeggero:");
+  const etaPasseggero = parseInt(inputUtenteEta);
+  if (isNaN(etaPasseggero) || etaPasseggero <= 0 || etaPasseggero > 150) {
     messaggio = messaggioErrore;
   } else {
     //Calcolo prezzo del biglietto
@@ -42,13 +42,14 @@ if (isNaN(lunghezzaTratta) || lunghezzaTratta <= 0) {
       parteDecimalePrezzoBiglietto = "00";
     }
     let separatoreDecimali = ",";
-    const valuta = "€";
+    let valuta = "€";
     let prezzoBigliettoFormattazioneLocale =
       parteInteraPrezzoBiglietto +
       separatoreDecimali +
       parteDecimalePrezzoBiglietto +
       valuta;
 
+    // Costruzione messaggio di riepilogo del biglietto
     messaggio = `Riepilogo biglietto:\n\nLunghezza tratta: ${lunghezzaTratta}km\nSconto: ${tipologiaSconto}\nPrezzo: ${prezzoBigliettoFormattazioneLocale}\n\nGrazie per aver usufruito del nostro servizio! Per calcolare il prezzo di un altro biglietto, la preghiamo di ricaricare la pagina.`;
   }
 }
