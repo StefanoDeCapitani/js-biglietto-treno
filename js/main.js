@@ -1,32 +1,56 @@
 let messaggio = "";
-const tariffaChilometrica = 0.21;
+let messaggioErrore =
+  "Parametro errato, si prega di inserire un numero (maggiore di 0). Per riprovare, è necessario ricaricare la pagina.";
+let tipologiaSconto = "Nessuno";
 
-let inserimentoUtenteTratta = prompt("Quanti chilometri devi percorrere?");
+//Richiesta input chilometri della tratta
+let inserimentoUtenteTratta = prompt("Lunghezza della tratta in km:");
 let lunghezzaTratta = parseInt(inserimentoUtenteTratta);
-if (isNaN(lunghezzaTratta)) {
-  messaggio =
-    "Parametro errato, si prega di inserire un numero. Per riprovare, è necessario ricaricare la pagina.";
-} else if (lunghezzaTratta <= 0) {
-  messaggio =
-    "Parametro errato, si prega di inserire un numero maggiore di 0. Per riprovare, è necessario ricaricare la pagina.";
+if (isNaN(lunghezzaTratta) || lunghezzaTratta <= 0) {
+  messaggio = messaggioErrore;
 } else {
-  const costoBiglietto = tariffaChilometrica * lunghezzaTratta;
-  const scontoMinorenni = 0.2;
-  const scontoOver65 = 0.4;
+  //Richiesta input età del passeggero
+  let inserimentoUtenteEta = prompt("Eta del passeggero:");
+  let etaPasseggero = parseInt(inserimentoUtenteEta);
+  if (isNaN(etaPasseggero) || etaPasseggero <= 0) {
+    messaggio = messaggioErrore;
+  } else {
+    //Calcolo prezzo del biglietto
+    const tariffaChilometrica = 0.21;
+    let costoBiglietto = tariffaChilometrica * lunghezzaTratta;
 
-  let etaPasseggero = prompt("Quanti anni hai?");
-  if (etaPasseggero < 18) {
-    costoBiglietto -= costoBiglietto * scontoMinorenni;
+    //Calcolo sconto
+    const scontoMinorenni = 0.2;
+    const scontoOver65 = 0.4;
+    if (etaPasseggero < 18) {
+      costoBiglietto -= costoBiglietto * scontoMinorenni;
+      tipologiaSconto = "-20% (sconto minorenni)";
+    }
+    if (etaPasseggero >= 65) {
+      costoBiglietto -= costoBiglietto * scontoOver65;
+      tipologiaSconto = "-40% (sconto over65)";
+    }
+
+    //Formattazione prezzo
+    let prezzoBigliettoArrotondato = Math.round(costoBiglietto * 100) / 100;
+    let parteInteraPrezzoBiglietto = Math.floor(prezzoBigliettoArrotondato);
+    console.log("PrezzoArrotondato: " + prezzoBigliettoArrotondato);
+    let parteDecimalePrezzoBiglietto = Math.round(
+      (prezzoBigliettoArrotondato - parteInteraPrezzoBiglietto) * 100
+    );
+    if (parteDecimalePrezzoBiglietto === 0) {
+      parteDecimalePrezzoBiglietto = "00";
+    }
+    let separatoreDecimali = ",";
+    const valuta = "€";
+    let prezzoBigliettoFormattazioneLocale =
+      parteInteraPrezzoBiglietto +
+      separatoreDecimali +
+      parteDecimalePrezzoBiglietto +
+      valuta;
+
+    messaggio = `Riepilogo biglietto:\n\nLunghezza tratta: ${lunghezzaTratta}km\nSconto: ${tipologiaSconto}\nPrezzo: ${prezzoBigliettoFormattazioneLocale}\n\nGrazie per aver usufruito del nostro servizio! Per calcolare il prezzo di un altro biglietto, la preghiamo di ricaricare la pagina.`;
   }
-  if (etaPasseggero >= 65) {
-    costoBiglietto -= costoBiglietto * scontoOver65;
-  }
-
-  let prezzoBigliettoFormattato = Math.round(costoBiglietto * 100) / 100;
-  const valuta = "€";
-
-  messaggio =
-    "Il costo del tuo biglietto è di " + prezzoBigliettoFormattato + valuta;
 }
 
 alert(messaggio);
