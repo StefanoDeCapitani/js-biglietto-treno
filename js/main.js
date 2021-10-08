@@ -34,7 +34,6 @@ if (isNaN(lunghezzaTratta) || lunghezzaTratta <= 0) {
     //Formattazione prezzo
     let prezzoBigliettoArrotondato = Math.round(costoBiglietto * 100) / 100;
     let parteInteraPrezzoBiglietto = Math.floor(prezzoBigliettoArrotondato);
-    console.log("PrezzoArrotondato: " + prezzoBigliettoArrotondato);
     let parteDecimalePrezzoBiglietto = Math.round(
       (prezzoBigliettoArrotondato - parteInteraPrezzoBiglietto) * 100
     );
